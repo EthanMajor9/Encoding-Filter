@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 int main(int argc, char* argv[])
 {
@@ -53,6 +54,38 @@ int main(int argc, char* argv[])
 			-iINPUTFILENAME: Name of the input file. If not present program obtains data from standard input\n\n \
 			-oOUTPUTFILENAME: Name of the output file. If not present all output will be sent to standard output.\n\n \
 			-srec: Specifies the output to be in S-record format. If not present, output will be put into an assembly file\n\n");
+	}
+	else
+	{
+		if(inputFileSwitch == 0)
+		{
+			infile = stdin;
+			if(outputFileSwitch == 0)
+			{
+				infile = stdout;
+			}
+		}
+		else
+		{
+			infile = fopen(infilename, "rb");
+			if(infile == NULL)
+			{
+				printf("Error: There was an error opening the file\n");
+				exit(-1);
+			}
+		}
+
+		if(outputFileSwitch == 0 && inputFileSwitch == 1)
+		{
+			if(srecSwitch == 0)
+			{
+				strcat(outfilename, ".asm");
+			}
+			else
+			{
+				strcat(outfilename, ".srec");
+			}
+		}
 	}
 
 	return 0;
