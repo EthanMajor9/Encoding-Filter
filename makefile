@@ -7,15 +7,21 @@
 #                  MyApp Example
 # =======================================================
 # FINAL BINARY Target
-./bin/encodeInput : ./obj/encodeInput.o
-	cc ./obj/encodeInput.o -o ./bin/encodeInput
+./bin/encodeInput : ./obj/encodeInput.o ./obj/asm.o ./obj/srec.o
+	cc ./obj/encodeInput.o ./obj/asm.o ./obj/srec.o -o ./bin/encodeInput
 
 #
 # =======================================================
 #                     Dependencies
 # =======================================================                     
-./obj/encodeInput.o : ./src/encodeInput.c 
-	cc -c ./src/encodeInput.c -o ./obj/encodeInput.o
+./obj/encodeInput.o : ./src/encodeInput.c ./inc/encode.h
+	cc -g -c ./src/encodeInput.c -o ./obj/encodeInput.o
+
+./obj/asm.o : ./src/asm.c ./inc/encode.h
+	cc -g -c ./src/asm.c -o ./obj/asm.o
+
+./obj/srec.o : ./src/srec.c ./inc/encode.h
+	cc -g -c ./src/srec.c -o ./obj/srec.o
 
 #
 # =======================================================

@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdint.h>
 
 #define MAX_SREC_LENGTH 32
 #define MAX_BUFFER 16
@@ -16,13 +17,13 @@ void srecEncode(FILE* in, FILE* out)
     fprintf(out, "S00F0000636F736D696E2D657468616E");
     uint8_t checksum = headerCount + headerAdd;
 
-    for(i = 0; i < 12; i++)
+    for(int i = 0; i < 12; i++)
     {
         checksum += headerData[i];
     }
     fprintf(out, "%02X\n", (~checksum) & 0xFF);
 
-    char buffer[MAX_BUFFER]
+    char buffer[MAX_BUFFER];
     while(fread(buffer, MAX_BUFFER, 1, in) == 1)
     {
 
