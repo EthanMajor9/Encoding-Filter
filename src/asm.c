@@ -12,7 +12,7 @@ void asmEncode(FILE* infile, FILE* outfile)
 		
 		if(i == 0)
 		{
-			fprintf(outfile, "\ndc.b\t");
+			fprintf(outfile, "dc.b\t");
 		}
 
 		fprintf(outfile, "$%02X", (unsigned char) buffer[0]);

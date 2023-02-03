@@ -1,12 +1,16 @@
 #include "../inc/encode.h"
 
+const uint8_t headerData[] = {0x63,0x6F,0x73,0x6D,0x69,0x6E,0x2D,0x65,0x74,0x68,0x61,0x6E};
+
 void srecEncode(FILE* infile, FILE* outfile)
 {
     int addline = 0;
     int dataline = 0;
-
+	int headerCount = 15;
+	int headerAddress = 0;
+	
     fprintf(outfile, "S00F0000636F736D696E2D657468616E");
-    int checksum = headerCount + headerAdd;
+    int checksum = headerCount + headerAddress;
 
     for(int i = 0; i < 12; i++)
     {
