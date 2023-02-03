@@ -19,13 +19,12 @@ void srecEncode(FILE* infile, FILE* outfile)
     fprintf(outfile, "%02X\n", (~checksum) & 0xFF);
 
     char buffer[MAX_BUFFER];
-    char* output;
 
     while(!feof(infile))
     {
         fread(buffer, MAX_BUFFER, 1, infile);
-        encode_srec(0, buffer, strlen(buffer), output);
-        fprintf(outfile, "%s", output);
+        char *outbuffer = encode_srec(0, buffer, strlen(buffer));
+        fprintf(outfile, "%s", outbuffer);
     }
 
     fprintf(outfile, "S50300%02d", dataline);
@@ -35,8 +34,9 @@ void srecEncode(FILE* infile, FILE* outfile)
     fprintf(outfile, "S9030000FC");
 }
 
-void encode_srec(int address, char data[MAX_SREC_LENGTH], int length, char *output)
+char* encode_srec(int address, char data[MAX_SREC_LENGTH], int length)
 {
+    char* output;
     int checksum = 0;
     int count = length + 3;
 
@@ -49,4 +49,6 @@ void encode_srec(int address, char data[MAX_SREC_LENGTH], int length, char *outp
     }
 
     sprintf(output + 7 + (length * 2), "%02X\n", (~checksum) & 0xFF);
+
+    return output;
 }
