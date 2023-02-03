@@ -9,3 +9,4 @@
 
 void srecEncode(FILE* infile, FILE* outfile);
 void asmEncode(FILE* infile, FILE* outfile);
+void encode_srec(int address, char data[MAX_SREC_LENGTH], int length, char *output);

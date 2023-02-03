@@ -20,11 +20,11 @@ void srecEncode(FILE* infile, FILE* outfile)
 
     char buffer[MAX_BUFFER];
     char* output;
-    
+
     while(!feof(infile))
     {
-        fread(buffer, MAX_BUFFER, 1, infile)
-        encode_srec(0, buffer, strlen(buffer), &output);
+        fread(buffer, MAX_BUFFER, 1, infile);
+        encode_srec(0, buffer, strlen(buffer), output);
         fprintf(outfile, "%s", output);
     }
 
