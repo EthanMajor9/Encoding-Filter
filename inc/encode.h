@@ -1,3 +1,10 @@
+/*
+* FILE: encode.h
+* PROJECT: A-02 EncodeInput Utility
+* FIRST VERSION: 02/01/2023
+* PROGRAMMER(s): Ethan Major, Cosmin Matei
+* DESCRIPTION: This file contains all function prototypes and constant definitions for the encodeInput utility
+*/
 #pragma once
 #include <stdio.h>
 #include <string.h>
