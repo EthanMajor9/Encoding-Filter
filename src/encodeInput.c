@@ -57,42 +57,30 @@ int main(int argc, char* argv[])
 	}
 	else
 	{
-		// No inputfile specified
-		if(inputFileSwitch == 0)
+		if(inputFileSwitch == 0) 
 		{
 			infile = stdin;
-			// No output file specified
-			if(outputFileSwitch == 0)
-			{
-				infile = stdout;
-			}
+			outfile = (outputFileSwitch == 0) ? stdout : fopen(outfilename, "w");
 		}
-		// Inputfile specified
-		else
+		else 
 		{
 			infile = fopen(infilename, "rb");
-			if(infile == NULL)
+			if(infile == NULL) 
 			{
-				printf("Line 74 Error: There was an error opening the file\n");
+				printf("Error: There was an error opening the file\n");
 				exit(-1);
 			}
+			
+			outfile = (outputFileSwitch == 0) ? fopen(strcat(infilename, (srecSwitch == 0) ? ".asm" : ".srec"), "w") : fopen(outfilename, "w");
 		}
-
-		// No output file specified, input file was specified
-		if(outputFileSwitch == 0 && inputFileSwitch == 1)
+		
+		if(outfile == NULL) 
 		{
-			char *extension = (srecSwitch == 0) ? ".asm" : ".srec";
-
-			strcpy(outfilename, strcat(infilename, extension));
-			outfile = fopen(outfilename, "w");
-			if(outfile == NULL)
-			{
-				printf("Line %d Error: There was an error opening the file\n", (srecSwitch == 0) ? 96 : 96);
-    			exit(-1);
-			}
-
-			(srecSwitch == 0) ? asmEncode(infile, outfile) : srecEncode(infile, outfile);
+			printf("Error: There was an error opening/creating the file\n");
+			exit(-1);
 		}
+
+		(srecSwitch == 0) ? asmEncode(infile, outfile) : srecEncode(infile, outfile);
 	}
 	return 0;
 }
