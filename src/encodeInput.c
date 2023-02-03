@@ -12,7 +12,6 @@ int main(int argc, char* argv[])
 	char outfilename[kArrSize];
 	FILE* infile = NULL;
 	FILE* outfile = NULL;
-	char temp[kArrSize];
 
 	for(int i = 1; i < argc; i++)
 	{
@@ -82,29 +81,17 @@ int main(int argc, char* argv[])
 		// No output file specified, input file was specified
 		if(outputFileSwitch == 0 && inputFileSwitch == 1)
 		{
-			// Srec not specified
-			if(srecSwitch == 0)
+			char *extension = (srecSwitch == 0) ? ".asm" : ".srec";
+
+			strcpy(outfilename, strcat(infilename, extension));
+			outfile = fopen(outfilename, "w");
+			if(outfile == NULL)
 			{
-				strcpy(outfilename, strcat(infilename, ".asm"));
-				outfile = fopen(outfilename, "w");
-				if(outfile == NULL)
-				{
-					printf("Error: There was an error opening the file\n");
-					exit(-1);
-				}
-				asmEncode(infile, outfile);
+				printf("Line %d Error: There was an error opening the file\n", (srecSwitch == 0) ? 96 : 96);
+    			exit(-1);
 			}
-			// Srec specified
-			else
-			{
-				strcpy(outfilename, strcat(infilename, ".srec"));
-				outfile = fopen(outfilename, "w");
-				if(outfile == NULL)
-				{
-					printf("Line 96 Error: There was an error opening the file\n");
-					exit(-1);
-				}
-			}
+
+			(srecSwitch == 0) ? asmEncode(infile, outfile) : srecEncode(infile, outfile);
 		}
 	}
 	return 0;
