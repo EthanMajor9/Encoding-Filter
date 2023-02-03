@@ -1,10 +1,5 @@
 #include "../inc/encode.h"
 
-char* header;
-uint8_t headerCount = 15;
-uint16_t headerAdd = 0000;
-const uint8_t headerData[] = {0x63,0x6F,0x73,0x6D,0x69,0x6E,0x2D,0x65,0x74,0x68,0x61,0x6E};
-
 void srecEncode(FILE* infile, FILE* outfile)
 {
     int addline = 0;
@@ -19,14 +14,12 @@ void srecEncode(FILE* infile, FILE* outfile)
     }
     fprintf(outfile, "%02X\n", (~checksum) & 0xFF);
 
-    
-
     while(!feof(infile))
     {
         char buffer[MAX_BUFFER] = "";
 
-        fread(buffer, MAX_BUFFER, 1, infile);
-        char *outbuffer = encode_srec(addline, buffer, strlen(buffer));
+        size_t bytes = fread(buffer, 1, MAX_BUFFER, infile);
+        char *outbuffer = encode_srec(addline, buffer, bytes);
         fprintf(outfile, "%s", outbuffer);
         addline += 16;
         dataline += 1;
